@@ -1,10 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import { DragAndDropUpload } from 'components/DragAndDropUpload';
+
+import { AppContext } from 'utilities/context';
 
 function App() {
+  const [zipFile, setZipFile] = useState<File>();
+
   return (
-    <div>
-      <h1>Hello world</h1>
-    </div>
+    <AppContext.Provider value={{ zipFile, setZipFile }}>
+      <div className={'container mx-auto py-8'}>
+        <DragAndDropUpload />
+      </div>
+    </AppContext.Provider>
   );
 }
 
