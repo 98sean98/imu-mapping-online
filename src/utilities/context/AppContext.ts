@@ -1,6 +1,7 @@
 import { createContext, Dispatch, SetStateAction } from 'react';
 
 import { RotationMatrixData } from 'models/RotationMatrixData';
+import { Displacement } from 'models/Displacement';
 
 type AppContext = {
   zipFile: File | undefined;
@@ -9,6 +10,8 @@ type AppContext = {
   setRotationMatrixData: Dispatch<
     SetStateAction<RotationMatrixData | undefined>
   >;
+  generatedDisplacement: Displacement | undefined;
+  setGeneratedDisplacement: Dispatch<SetStateAction<Displacement | undefined>>;
 };
 
 const initialAppContext: AppContext = {
@@ -16,6 +19,8 @@ const initialAppContext: AppContext = {
   setZipFile: () => {},
   rotationMatrixData: undefined,
   setRotationMatrixData: () => {},
+  generatedDisplacement: undefined,
+  setGeneratedDisplacement: () => {},
 };
 
 export const AppContext = createContext(initialAppContext);

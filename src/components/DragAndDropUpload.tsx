@@ -77,9 +77,7 @@ export const DragAndDropUpload: FC<UploadZipProps> = () => {
       </p>
 
       <div className={'mt-3'}>
-        <label
-          htmlFor="file"
-          className={'text-xs border rounded bg-gray-100 p-2 cursor-pointer'}>
+        <label htmlFor="file" className={'text-xs button cursor-pointer'}>
           {typeof zipFile === 'undefined'
             ? `Choose a file`
             : `Choose another file`}
