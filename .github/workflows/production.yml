@@ -2,8 +2,8 @@ name: Build production website, and deploy to gh pages
 
 on:
   push:
-#    branches:
-#      - master
+    branches:
+      - master
 
 jobs:
   deploy:
