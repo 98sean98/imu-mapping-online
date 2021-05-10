@@ -64,7 +64,7 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
       </div>
 
       <div>
-        <p>Bias time cut off</p>
+        <p>Bias time cut off (seconds)</p>
         <div className={'mt-2 flex space-x-4'}>
           <div className={'space-x-2'}>
             <label htmlFor={'biasTimeCutOffStart'}>Start</label>
@@ -108,7 +108,7 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
       </div>
 
       <div>
-        <p>Data time cut off</p>
+        <p>Useful data time cut off (seconds)</p>
         <div className={'mt-2 flex space-x-4'}>
           <div className={'space-x-2'}>
             <label htmlFor={'timeCutOffStart'}>Start</label>

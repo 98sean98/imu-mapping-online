@@ -5,5 +5,5 @@ export const initialAlgorithmParameters: AlgorithmParameters = {
   frequency: 50,
   assumedConstantVelocity: 0.15,
   biasTimeCutOff: [0, 30],
-  timeCutOff: [30, 30],
+  timeCutOff: [30, 60],
 };

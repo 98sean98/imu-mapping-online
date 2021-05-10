@@ -70,9 +70,9 @@ export const DragAndDropUpload: FC<UploadZipProps> = () => {
         </div>
       ) : null}
 
-      <p>
+      <p className={'font-medium text-gray-400'}>
         {typeof zipFile !== 'undefined'
-          ? `Chosen ${zipFile.name}`
+          ? `${zipFile.name}`
           : `Drop a .zip file`}{' '}
       </p>
 
