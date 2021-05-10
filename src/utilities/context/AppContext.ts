@@ -2,6 +2,9 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 
 import { RotationMatrixData } from 'models/RotationMatrixData';
 import { Displacement } from 'models/Displacement';
+import { AlgorithmParameters } from 'models/AlgorithmParameters';
+
+import { initialAlgorithmParameters } from '../initial-data/initialAlgorithmParameters';
 
 type AppContext = {
   zipFile: File | undefined;
@@ -14,6 +17,8 @@ type AppContext = {
   setGeneratedDisplacement: Dispatch<SetStateAction<Displacement | undefined>>;
   dataRevision: number;
   setDataRevision: Dispatch<SetStateAction<number>>;
+  algorithmParameters: AlgorithmParameters;
+  setAlgorithmParameters: Dispatch<SetStateAction<AlgorithmParameters>>;
 };
 
 const initialAppContext: AppContext = {
@@ -25,6 +30,8 @@ const initialAppContext: AppContext = {
   setGeneratedDisplacement: () => {},
   dataRevision: 0,
   setDataRevision: () => {},
+  algorithmParameters: initialAlgorithmParameters,
+  setAlgorithmParameters: () => {},
 };
 
 export const AppContext = createContext(initialAppContext);

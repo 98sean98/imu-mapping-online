@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useCallback } from 'react';
 import {
   index,
   matrix,
@@ -21,26 +21,25 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
     rotationMatrixData,
     setGeneratedDisplacement,
     setDataRevision,
+    algorithmParameters,
   } = useAppContext();
 
-  useEffect(() => {
-    if (typeof rotationMatrixData !== 'undefined')
-      console.log(rotationMatrixData);
-  }, [rotationMatrixData]);
-
-  const onClick = () => {
+  const onClick = useCallback(() => {
     if (typeof rotationMatrixData !== 'undefined') {
       // perform algorithm
       const { time, rotationMatrix } = rotationMatrixData;
 
       // parameters
-      const shouldCorrectionBiasRotM = true;
-      const frequency = 50;
-      const assumedConstantVelocity = 0.1334;
-      const biasRowIndexCutoff = multiply([0, 30], frequency);
-      const timeCutOff = [62.5, 6];
+      const {
+        shouldCorrectWithBiasRotM,
+        frequency,
+        assumedConstantVelocity,
+        biasTimeCutOff,
+        timeCutOff,
+      } = algorithmParameters;
 
       // obtain rotation matrix for bias correction
+      const biasRowIndexCutoff = multiply(biasTimeCutOff, frequency);
       const stationaryRotM = rotationMatrix.slice(
         biasRowIndexCutoff[0],
         biasRowIndexCutoff[1],
@@ -101,7 +100,7 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
         const d = distance[i];
         const R = slicedRotM[i];
 
-        const aggregateRotM = shouldCorrectionBiasRotM
+        const aggregateRotM = shouldCorrectWithBiasRotM
           ? multiply(biasCorrectionRotM, R)
           : R;
 
@@ -124,14 +123,21 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
 
       setGeneratedDisplacement(displacement);
       setDataRevision((current) => current + 1);
-
-      console.log({ displacementSize: displacement.size() });
     }
-  };
+  }, [
+    rotationMatrixData,
+    algorithmParameters,
+    setGeneratedDisplacement,
+    setDataRevision,
+  ]);
 
   return (
-    <button className={'button'} onClick={onClick}>
-      Run Algorithm
-    </button>
+    <>
+      {typeof rotationMatrixData !== 'undefined' ? (
+        <button className={'button'} onClick={onClick}>
+          Run Algorithm
+        </button>
+      ) : null}
+    </>
   );
 };
