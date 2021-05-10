@@ -17,7 +17,11 @@ import { useAppContext } from 'utilities/hooks';
 interface PerformAlgorithmProps {}
 
 export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
-  const { rotationMatrixData, setGeneratedDisplacement } = useAppContext();
+  const {
+    rotationMatrixData,
+    setGeneratedDisplacement,
+    setDataRevision,
+  } = useAppContext();
 
   useEffect(() => {
     if (typeof rotationMatrixData !== 'undefined')
@@ -66,13 +70,14 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
         (t) => t > time[time.length - 1] - timeCutOff[1],
         rowIndexCutOffStart,
       );
-      time.splice(0, rowIndexCutOffStart);
-      time.splice(rowIndexCutOffEnd - rowIndexCutOffStart);
-      rotationMatrix.splice(0, rowIndexCutOffStart);
-      rotationMatrix.splice(rowIndexCutOffEnd - rowIndexCutOffStart);
+      const slicedTime = time.slice(rowIndexCutOffStart, rowIndexCutOffEnd);
+      const slicedRotM = rotationMatrix.slice(
+        rowIndexCutOffStart,
+        rowIndexCutOffEnd,
+      );
 
       // adjust time due to cut off
-      const adjustedTime = subtract(time, time[0]) as Array<number>;
+      const adjustedTime = subtract(slicedTime, slicedTime[0]) as Array<number>;
 
       // calculate distance scalars
       const distance = adjustedTime.map((t, index) => {
@@ -86,7 +91,7 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
 
       // propagate position vectors
       const positions: Array<Matrix> = [];
-      for (let i = 0; i < rotationMatrix.length; i++) {
+      for (let i = 0; i < slicedRotM.length; i++) {
         if (i === 0) {
           positions.push(matrix([[0], [0], [0]]));
           continue;
@@ -94,7 +99,7 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
 
         const p1 = positions[i - 1];
         const d = distance[i];
-        const R = rotationMatrix[i];
+        const R = slicedRotM[i];
 
         const aggregateRotM = shouldCorrectionBiasRotM
           ? multiply(biasCorrectionRotM, R)
@@ -118,6 +123,9 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
       }
 
       setGeneratedDisplacement(displacement);
+      setDataRevision((current) => current + 1);
+
+      console.log({ displacementSize: displacement.size() });
     }
   };
 

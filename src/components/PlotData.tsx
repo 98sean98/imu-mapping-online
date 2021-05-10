@@ -7,7 +7,7 @@ import { useAppContext } from 'utilities/hooks';
 interface PlotDataProps {}
 
 export const PlotData: FC<PlotDataProps> = () => {
-  const { generatedDisplacement } = useAppContext();
+  const { generatedDisplacement, dataRevision } = useAppContext();
 
   const showPlots = useMemo(
     () => typeof generatedDisplacement !== 'undefined',
@@ -41,7 +41,9 @@ export const PlotData: FC<PlotDataProps> = () => {
           {/* dynamics */}
           <div className={'w-full md:w-4/5 lg:w-3/5'}>
             <Plot
-              className={'w-full'}
+              useResizeHandler
+              revision={dataRevision}
+              className={'w-full h-full'}
               config={{ responsive: true }}
               data={[
                 {
@@ -69,7 +71,10 @@ export const PlotData: FC<PlotDataProps> = () => {
                   name: 'z',
                 },
               ]}
-              layout={{ title: 'Dynamics' }}
+              layout={{
+                autosize: true,
+                title: 'Dynamics',
+              }}
             />
           </div>
 
@@ -79,47 +84,72 @@ export const PlotData: FC<PlotDataProps> = () => {
               'w-full lg:flex lg:justify-around space-y-4 lg:space-x-4 lg:space-y-0'
             }>
             <Plot
-              className={'w-full'}
+              useResizeHandler
+              revision={dataRevision}
+              className={'w-full h-full'}
               config={{ responsive: true }}
               data={[
                 {
                   x: parsedDisplacement.y,
                   y: parsedDisplacement.x,
                   type: 'scatter',
+                  mode: 'lines',
                   line: { color: 'red' },
                 },
               ]}
-              layout={{ title: '2D Map' }}
+              layout={{
+                autosize: true,
+                title: '2D Map',
+                xaxis: { autorange: false },
+              }}
             />
             <Plot
-              className={'w-full'}
+              useResizeHandler
+              revision={dataRevision}
+              className={'w-full h-full'}
               config={{ responsive: true }}
               data={[
                 {
                   x: parsedDisplacement.x,
                   y: parsedDisplacement.z,
                   type: 'scatter',
+                  mode: 'lines',
                   line: { color: 'blue' },
                 },
               ]}
-              layout={{ title: 'Elevation' }}
+              layout={{
+                autosize: true,
+                title: 'Elevation',
+                yaxis: { autorange: false },
+              }}
             />
           </div>
 
           <div className={'w-full md:w-4/5 lg:w-3/5'}>
             <Plot
-              className={'w-full'}
+              useResizeHandler
+              revision={dataRevision}
+              className={'w-full h-full'}
               config={{ responsive: true }}
               data={[
                 {
-                  x: parsedDisplacement.x,
-                  y: parsedDisplacement.y,
+                  x: parsedDisplacement.y,
+                  y: parsedDisplacement.x,
                   z: parsedDisplacement.z,
                   type: 'scatter3d',
-                  line: { color: 'red' },
+                  mode: 'lines',
+                  line: { color: 'red', width: 4 },
                 },
               ]}
-              layout={{ title: '3D Map' }}
+              layout={{
+                autosize: true,
+                title: '3D Map',
+                scene: {
+                  camera: { eye: { x: -1.25, y: -1.25, z: 1.25 } },
+                  aspectmode: 'cube',
+                  dragmode: false,
+                },
+              }}
             />
           </div>
         </div>

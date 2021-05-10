@@ -20,6 +20,7 @@ function App() {
     generatedDisplacement,
     setGeneratedDisplacement,
   ] = useState<Displacement>();
+  const [dataRevision, setDataRevision] = useState<number>(0);
 
   return (
     <AppContext.Provider
@@ -30,6 +31,8 @@ function App() {
         setRotationMatrixData,
         generatedDisplacement,
         setGeneratedDisplacement,
+        dataRevision,
+        setDataRevision,
       }}>
       <div className={'container mx-auto py-8 space-y-8'}>
         <DragAndDropUpload />

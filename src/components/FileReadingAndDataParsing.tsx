@@ -12,7 +12,11 @@ type UnzippedFile = {
 };
 
 export const FileReadingAndDataParsing: FC<FileReadingAndDataParsingProps> = () => {
-  const { zipFile, setRotationMatrixData } = useAppContext();
+  const {
+    zipFile,
+    setRotationMatrixData,
+    setGeneratedDisplacement,
+  } = useAppContext();
 
   const [unzippedFiles, setUnzippedFiles] = useState<Array<UnzippedFile>>([]);
 
@@ -62,9 +66,11 @@ export const FileReadingAndDataParsing: FC<FileReadingAndDataParsingProps> = () 
           rotationMatrix.push(matrix(rotationMatrixArray));
         }
         setRotationMatrixData({ time, rotationMatrix });
+        // reset generated displacement data to undefined
+        setGeneratedDisplacement(undefined);
       }
     }
-  }, [unzippedFiles, setRotationMatrixData]);
+  }, [unzippedFiles, setRotationMatrixData, setGeneratedDisplacement]);
 
   return <></>;
 };

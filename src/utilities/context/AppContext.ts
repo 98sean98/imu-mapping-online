@@ -12,6 +12,8 @@ type AppContext = {
   >;
   generatedDisplacement: Displacement | undefined;
   setGeneratedDisplacement: Dispatch<SetStateAction<Displacement | undefined>>;
+  dataRevision: number;
+  setDataRevision: Dispatch<SetStateAction<number>>;
 };
 
 const initialAppContext: AppContext = {
@@ -21,6 +23,8 @@ const initialAppContext: AppContext = {
   setRotationMatrixData: () => {},
   generatedDisplacement: undefined,
   setGeneratedDisplacement: () => {},
+  dataRevision: 0,
+  setDataRevision: () => {},
 };
 
 export const AppContext = createContext(initialAppContext);
