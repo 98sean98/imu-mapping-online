@@ -48,7 +48,7 @@ function App() {
         stage,
         setStage,
       }}>
-      <div className={'container mx-auto py-8 space-y-8'}>
+      <div className={'container mx-auto py-8 px-4 space-y-8'}>
         <div className={'space-y-4'}>
           <h3 className={'text-3xl'}>Zip File Upload</h3>
           <DragAndDropUpload />
