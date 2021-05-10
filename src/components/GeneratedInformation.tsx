@@ -1,5 +1,5 @@
 import React, { FC, useMemo } from 'react';
-import { index, range } from 'mathjs';
+import { index, range, round } from 'mathjs';
 
 import { useAppContext } from 'utilities/hooks';
 
@@ -12,18 +12,22 @@ export const GeneratedInformation: FC<GeneratedInformationProps> = () => {
     if (typeof generatedDisplacement !== 'undefined') {
       const sampleSize = generatedDisplacement.size()[0];
 
-      const t = generatedDisplacement
+      const roundedDisplacement = round(generatedDisplacement, 3);
+
+      const t = roundedDisplacement
         .subset(index(range(0, sampleSize), 0))
         .toArray()
         .flat();
       const travelTime = t[sampleSize - 1] - t[0];
 
-      const startPoint = generatedDisplacement
+      const startPoint = roundedDisplacement
         .subset(index(0, [1, 2, 3]))
-        .toArray() as Array<number>;
-      const endPoint = generatedDisplacement
+        .toArray()
+        .flat() as Array<number>;
+      const endPoint = roundedDisplacement
         .subset(index(sampleSize - 1, [1, 2, 3]))
-        .toArray() as Array<number>;
+        .toArray()
+        .flat() as Array<number>;
 
       return { sampleSize, travelTime, startPoint, endPoint };
     }
@@ -41,9 +45,9 @@ export const GeneratedInformation: FC<GeneratedInformationProps> = () => {
   return (
     <div className={'space-y-4'}>
       <p>Sample size: {info.sampleSize}</p>
-      <p>Travel time: {info.travelTime}</p>
-      <p>{`Start point (x,y,z): ${enumeratePoint(info.startPoint)}`}</p>
-      <p>{`End point (x,y,z): ${enumeratePoint(info.endPoint)}`}</p>
+      <p>Travel time: {info.travelTime}s</p>
+      <p>{`Start point (x, y, z): ${enumeratePoint(info.startPoint)}`}</p>
+      <p>{`End point (x, y, z): ${enumeratePoint(info.endPoint)}`}</p>
     </div>
   );
 };

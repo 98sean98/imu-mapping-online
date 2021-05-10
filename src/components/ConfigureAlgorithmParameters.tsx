@@ -1,6 +1,7 @@
 import React, { FC } from 'react';
 
 import { useAppContext } from 'utilities/hooks';
+import { parseNumberAsInputValue } from 'utilities/functions/parseNumberAsInputValue';
 
 interface ConfigureAlgorithmParametersProps {}
 
@@ -10,9 +11,7 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
   return (
     <div className={'space-y-4'}>
       <div className={'space-x-2'}>
-        <label htmlFor={'shouldCorrectWithBiasRotM'}>
-          Should correct with bias rotation matrix
-        </label>
+        <label htmlFor={'shouldCorrectWithBiasRotM'}>Should correct bias</label>
         <input
           id={'shouldCorrectWithBiasRotM'}
           type={'checkbox'}
@@ -27,13 +26,13 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
       </div>
 
       <div className={'space-x-2'}>
-        <label htmlFor={'frequency'}>Data collection frequency</label>
+        <label htmlFor={'frequency'}>Data collection frequency (Hz)</label>
         <input
           id={'frequency'}
           type={'number'}
           min={1}
           max={400}
-          value={algorithmParameters.frequency}
+          value={parseNumberAsInputValue(algorithmParameters.frequency)}
           onChange={(e) => {
             setAlgorithmParameters({
               ...algorithmParameters,
@@ -46,13 +45,15 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
 
       <div className={'space-x-2'}>
         <label htmlFor={'assumedConstantVelocity'}>
-          Assumed constant velocity
+          Assumed constant velocity (m/s)
         </label>
         <input
           id={'assumedConstantVelocity'}
           type={'number'}
           min={0}
-          value={algorithmParameters.assumedConstantVelocity}
+          value={parseNumberAsInputValue(
+            algorithmParameters.assumedConstantVelocity,
+          )}
           onChange={(e) => {
             setAlgorithmParameters({
               ...algorithmParameters,
@@ -72,7 +73,9 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
               id={'biasTimeCutOffStart'}
               type={'number'}
               min={0}
-              value={algorithmParameters.biasTimeCutOff[0]}
+              value={parseNumberAsInputValue(
+                algorithmParameters.biasTimeCutOff[0],
+              )}
               onChange={(e) => {
                 setAlgorithmParameters({
                   ...algorithmParameters,
@@ -90,8 +93,10 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
             <input
               id={'biasTimeCutOffEnd'}
               type={'number'}
-              min={0}
-              value={algorithmParameters.biasTimeCutOff[1]}
+              min={algorithmParameters.biasTimeCutOff[0]}
+              value={parseNumberAsInputValue(
+                algorithmParameters.biasTimeCutOff[1],
+              )}
               onChange={(e) => {
                 setAlgorithmParameters({
                   ...algorithmParameters,
@@ -116,7 +121,7 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
               id={'timeCutOffStart'}
               type={'number'}
               min={0}
-              value={algorithmParameters.timeCutOff[0]}
+              value={parseNumberAsInputValue(algorithmParameters.timeCutOff[0])}
               onChange={(e) => {
                 setAlgorithmParameters({
                   ...algorithmParameters,
@@ -134,8 +139,8 @@ export const ConfigureAlgorithmParameters: FC<ConfigureAlgorithmParametersProps>
             <input
               id={'timeCutOffEnd'}
               type={'number'}
-              min={0}
-              value={algorithmParameters.timeCutOff[1]}
+              min={algorithmParameters.timeCutOff[0]}
+              value={parseNumberAsInputValue(algorithmParameters.timeCutOff[1])}
               onChange={(e) => {
                 setAlgorithmParameters({
                   ...algorithmParameters,
