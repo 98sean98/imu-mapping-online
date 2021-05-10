@@ -5,6 +5,7 @@ import { FileReadingAndDataParsing } from 'components/FileReadingAndDataParsing'
 import { PerformAlgorithm } from 'components/PerformAlgorithm';
 import { PlotData } from 'components/PlotData';
 import { ConfigureAlgorithmParameters } from 'components/ConfigureAlgorithmParameters';
+import { GeneratedInformation } from 'components/GeneratedInformation';
 
 import { RotationMatrixData } from 'models/RotationMatrixData';
 import { Displacement } from 'models/Displacement';
@@ -44,9 +45,12 @@ function App() {
         setAlgorithmParameters,
       }}>
       <div className={'container mx-auto py-8 space-y-8'}>
-        <DragAndDropUpload />
         <div className={'space-y-4'}>
-          <h3 className={'text-2xl'}>Algorithm Parameters</h3>
+          <h3 className={'text-3xl'}>Zip File Upload</h3>
+          <DragAndDropUpload />
+        </div>
+        <div className={'space-y-4'}>
+          <h3 className={'text-3xl'}>Algorithm Parameters</h3>
           <ConfigureAlgorithmParameters />
         </div>
 
@@ -56,7 +60,15 @@ function App() {
           <PerformAlgorithm />
         </div>
 
-        <PlotData />
+        {typeof generatedDisplacement !== 'undefined' ? (
+          <div className={'space-y-4'}>
+            <h3 className={'text-3xl'}>Results</h3>
+            <h4 className={'text-xl'}>Information</h4>
+            <GeneratedInformation />
+            <h4 className={'text-xl'}>Plots</h4>
+            <PlotData />
+          </div>
+        ) : null}
       </div>
     </AppContext.Provider>
   );
