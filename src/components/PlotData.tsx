@@ -1,5 +1,6 @@
 import React, { FC, useMemo } from 'react';
 import Plot from 'react-plotly.js';
+import { index, range, subset } from 'mathjs';
 
 import { useAppContext } from 'utilities/hooks';
 
@@ -13,17 +14,25 @@ export const PlotData: FC<PlotDataProps> = () => {
     [generatedDisplacement],
   );
 
-  const exampleDisplacement = useMemo(() => {
-    const thirdPi = (2 * Math.PI) / 3,
-      twoThirdsPi = thirdPi * 2;
-    const t = Array(5000)
-      .fill(null)
-      .map((e, i) => i / 200);
-    const x = t.map((e) => Math.sin(e));
-    const y = t.map((e) => Math.sin(e + thirdPi));
-    const z = t.map((e) => Math.sin(e + twoThirdsPi));
-    return { t, x, y, z };
-  }, []);
+  const parsedDisplacement = useMemo(() => {
+    if (typeof generatedDisplacement !== 'undefined') {
+      const sampleSize = generatedDisplacement.size()[0];
+      const t = subset(generatedDisplacement, index(range(0, sampleSize), 0))
+        .toArray()
+        .flat();
+      const x = subset(generatedDisplacement, index(range(0, sampleSize), 1))
+        .toArray()
+        .flat();
+      const y = subset(generatedDisplacement, index(range(0, sampleSize), 2))
+        .toArray()
+        .flat();
+      const z = subset(generatedDisplacement, index(range(0, sampleSize), 3))
+        .toArray()
+        .flat();
+      return { t, x, y, z };
+    }
+    return { t: [], x: [], y: [], z: [] };
+  }, [generatedDisplacement]);
 
   return (
     <>
@@ -36,24 +45,24 @@ export const PlotData: FC<PlotDataProps> = () => {
               config={{ responsive: true }}
               data={[
                 {
-                  x: exampleDisplacement.t,
-                  y: exampleDisplacement.x,
+                  x: parsedDisplacement.t,
+                  y: parsedDisplacement.x,
                   type: 'scatter',
                   mode: 'lines',
                   line: { color: 'red' },
                   name: 'x',
                 },
                 {
-                  x: exampleDisplacement.t,
-                  y: exampleDisplacement.y,
+                  x: parsedDisplacement.t,
+                  y: parsedDisplacement.y,
                   type: 'scatter',
                   mode: 'lines',
                   line: { color: 'blue' },
                   name: 'y',
                 },
                 {
-                  x: exampleDisplacement.t,
-                  y: exampleDisplacement.z,
+                  x: parsedDisplacement.t,
+                  y: parsedDisplacement.z,
                   type: 'scatter',
                   mode: 'lines',
                   line: { color: 'green' },
@@ -74,8 +83,8 @@ export const PlotData: FC<PlotDataProps> = () => {
               config={{ responsive: true }}
               data={[
                 {
-                  x: exampleDisplacement.x,
-                  y: exampleDisplacement.y,
+                  x: parsedDisplacement.y,
+                  y: parsedDisplacement.x,
                   type: 'scatter',
                   line: { color: 'red' },
                 },
@@ -87,8 +96,8 @@ export const PlotData: FC<PlotDataProps> = () => {
               config={{ responsive: true }}
               data={[
                 {
-                  x: exampleDisplacement.x,
-                  y: exampleDisplacement.z,
+                  x: parsedDisplacement.x,
+                  y: parsedDisplacement.z,
                   type: 'scatter',
                   line: { color: 'blue' },
                 },
@@ -103,9 +112,9 @@ export const PlotData: FC<PlotDataProps> = () => {
               config={{ responsive: true }}
               data={[
                 {
-                  x: exampleDisplacement.x,
-                  y: exampleDisplacement.y,
-                  z: exampleDisplacement.z,
+                  x: parsedDisplacement.x,
+                  y: parsedDisplacement.y,
+                  z: parsedDisplacement.z,
                   type: 'scatter3d',
                   line: { color: 'red' },
                 },

@@ -43,8 +43,9 @@ export const FileReadingAndDataParsing: FC<FileReadingAndDataParsingProps> = () 
       if (typeof matrixFile !== 'undefined') {
         // remove
         const rowStrings = matrixFile.content.split('\n');
-        // remove headers
+        // remove headers, and the last row which is just an empty string
         rowStrings.splice(0, 1);
+        rowStrings.splice(rowStrings.length - 1, 1);
         // parse data
         const time: Array<number> = [];
         const rotationMatrix: Array<Matrix> = [];
