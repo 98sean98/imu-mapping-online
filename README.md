@@ -1,6 +1,8 @@
-# Getting Started with Create React App
+# IMU Mapping Online
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is an web application equivalent of [ngimu-mapping](https://github.com/98sean98/ngimu-mapping).
+
+To use, go to https://imu-mapping-online.seanchok.com.
 
 ## Available Scripts
 
