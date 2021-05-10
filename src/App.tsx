@@ -10,6 +10,7 @@ import { GeneratedInformation } from 'components/GeneratedInformation';
 import { RotationMatrixData } from 'models/RotationMatrixData';
 import { Displacement } from 'models/Displacement';
 import { AlgorithmParameters } from 'models/AlgorithmParameters';
+import { Stage } from 'models/Stage';
 
 import { AppContext } from 'utilities/context';
 import { initialAlgorithmParameters } from 'utilities/initial-data/initialAlgorithmParameters';
@@ -29,6 +30,7 @@ function App() {
     algorithmParameters,
     setAlgorithmParameters,
   ] = useState<AlgorithmParameters>(initialAlgorithmParameters);
+  const [stage, setStage] = useState<Stage>(Stage.NO_DATA);
 
   return (
     <AppContext.Provider
@@ -43,8 +45,10 @@ function App() {
         setDataRevision,
         algorithmParameters,
         setAlgorithmParameters,
+        stage,
+        setStage,
       }}>
-      <div className={'container mx-auto py-8 space-y-8'}>
+      <div className={'container mx-auto py-8 px-4 space-y-8'}>
         <div className={'space-y-4'}>
           <h3 className={'text-3xl'}>Zip File Upload</h3>
           <DragAndDropUpload />
@@ -60,7 +64,7 @@ function App() {
           <PerformAlgorithm />
         </div>
 
-        {typeof generatedDisplacement !== 'undefined' ? (
+        {stage === Stage.RESULTS_OBTAINED ? (
           <div className={'space-y-4'}>
             <h3 className={'text-3xl'}>Results</h3>
             <h4 className={'text-xl'}>Information</h4>
