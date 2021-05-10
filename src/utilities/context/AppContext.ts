@@ -3,6 +3,7 @@ import { createContext, Dispatch, SetStateAction } from 'react';
 import { RotationMatrixData } from 'models/RotationMatrixData';
 import { Displacement } from 'models/Displacement';
 import { AlgorithmParameters } from 'models/AlgorithmParameters';
+import { Stage } from 'models/Stage';
 
 import { initialAlgorithmParameters } from '../initial-data/initialAlgorithmParameters';
 
@@ -19,6 +20,8 @@ type AppContext = {
   setDataRevision: Dispatch<SetStateAction<number>>;
   algorithmParameters: AlgorithmParameters;
   setAlgorithmParameters: Dispatch<SetStateAction<AlgorithmParameters>>;
+  stage: Stage;
+  setStage: Dispatch<SetStateAction<Stage>>;
 };
 
 const initialAppContext: AppContext = {
@@ -32,6 +35,8 @@ const initialAppContext: AppContext = {
   setDataRevision: () => {},
   algorithmParameters: initialAlgorithmParameters,
   setAlgorithmParameters: () => {},
+  stage: Stage.NO_DATA,
+  setStage: () => {},
 };
 
 export const AppContext = createContext(initialAppContext);

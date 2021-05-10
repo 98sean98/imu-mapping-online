@@ -2,6 +2,7 @@ import React, { FC, useEffect, useState } from 'react';
 import JSZip from 'jszip';
 import { matrix, Matrix } from 'mathjs';
 import { useAppContext } from '../utilities/hooks';
+import { Stage } from '../models/Stage';
 
 interface FileReadingAndDataParsingProps {}
 
@@ -16,6 +17,7 @@ export const FileReadingAndDataParsing: FC<FileReadingAndDataParsingProps> = () 
     zipFile,
     setRotationMatrixData,
     setGeneratedDisplacement,
+    setStage,
   } = useAppContext();
 
   const [unzippedFiles, setUnzippedFiles] = useState<Array<UnzippedFile>>([]);
@@ -68,9 +70,16 @@ export const FileReadingAndDataParsing: FC<FileReadingAndDataParsingProps> = () 
         setRotationMatrixData({ time, rotationMatrix });
         // reset generated displacement data to undefined
         setGeneratedDisplacement(undefined);
+        // set stage to data loaded
+        setStage(Stage.DATA_LOADED);
       }
     }
-  }, [unzippedFiles, setRotationMatrixData, setGeneratedDisplacement]);
+  }, [
+    unzippedFiles,
+    setRotationMatrixData,
+    setGeneratedDisplacement,
+    setStage,
+  ]);
 
   return <></>;
 };

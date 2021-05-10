@@ -1,17 +1,19 @@
-import React, { FC, useCallback } from 'react';
+import React, { FC, useCallback, useEffect, useMemo, useState } from 'react';
 import {
-  index,
-  matrix,
-  multiply,
   add,
   divide,
-  subtract,
+  index,
   inv,
-  zeros,
+  matrix,
+  Matrix,
+  multiply,
   range,
   subset,
-  Matrix,
+  subtract,
+  zeros,
 } from 'mathjs';
+
+import { Stage } from 'models/Stage';
 
 import { useAppContext } from 'utilities/hooks';
 
@@ -23,9 +25,11 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
     setGeneratedDisplacement,
     setDataRevision,
     algorithmParameters,
+    stage,
+    setStage,
   } = useAppContext();
 
-  const onClick = useCallback(() => {
+  const runAlgorithm = useCallback(() => {
     if (typeof rotationMatrixData !== 'undefined') {
       // perform algorithm
       const { time, rotationMatrix } = rotationMatrixData;
@@ -125,6 +129,7 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
 
       setGeneratedDisplacement(displacement);
       setDataRevision((current) => current + 1);
+      console.log('finished running algorithm!');
     }
   }, [
     rotationMatrixData,
@@ -133,11 +138,37 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
     setDataRevision,
   ]);
 
+  const [shouldRunAlgorithm, setShouldRunAlgorithm] = useState<boolean>(false);
+
+  const onClick = useCallback(() => setShouldRunAlgorithm(true), []);
+
+  useEffect(() => {
+    // hack
+    if (shouldRunAlgorithm) {
+      setStage(Stage.RUNNING_ALGORITHM);
+      const timeout = setTimeout(() => {
+        runAlgorithm();
+        setStage(Stage.RESULTS_OBTAINED);
+        setShouldRunAlgorithm(false);
+      }, 200);
+      return () => clearTimeout(timeout);
+    }
+  }, [shouldRunAlgorithm, runAlgorithm, setStage]);
+
+  const buttonText = useMemo(() => {
+    if (stage === Stage.DATA_LOADED) return 'Run Algorithm';
+    if (stage === Stage.RUNNING_ALGORITHM) return 'Running Algorithm';
+    if (stage === Stage.RESULTS_OBTAINED) return 'Run Again';
+  }, [stage]);
+
   return (
     <>
       {typeof rotationMatrixData !== 'undefined' ? (
-        <button className={'button'} onClick={onClick}>
-          Run Algorithm
+        <button
+          className={'button'}
+          onClick={onClick}
+          disabled={stage === Stage.RUNNING_ALGORITHM}>
+          {buttonText}
         </button>
       ) : null}
     </>
