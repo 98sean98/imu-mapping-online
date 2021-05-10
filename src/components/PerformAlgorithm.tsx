@@ -66,7 +66,7 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
       // remove first and last few seconds of data
       const rowIndexCutOffStart = time.findIndex((t) => t > timeCutOff[0]);
       const rowIndexCutOffEnd = time.findIndex(
-        (t) => t > time[time.length - 1] - timeCutOff[1],
+        (t) => t > timeCutOff[1],
         rowIndexCutOffStart,
       );
       const slicedTime = time.slice(rowIndexCutOffStart, rowIndexCutOffEnd);
