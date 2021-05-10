@@ -9,6 +9,7 @@ import {
   inv,
   zeros,
   range,
+  subset,
   Matrix,
 } from 'mathjs';
 
@@ -53,7 +54,8 @@ export const PerformAlgorithm: FC<PerformAlgorithmProps> = () => {
         stationaryRotM.length,
       ) as Matrix;
       const inverseMeanStationaryRotM = inv(meanStationaryRotM);
-      const biasCorrectionRotM = inverseMeanStationaryRotM.subset(
+      const biasCorrectionRotM = subset(
+        inverseMeanStationaryRotM,
         index(2, [0, 1, 2]),
         [0, 0, 1],
       );
