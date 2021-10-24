@@ -1,6 +1,6 @@
 # IMU Mapping Online
 
-This is an web application equivalent of [ngimu-mapping](https://github.com/98sean98/ngimu-mapping).
+This is a web application equivalent of [ngimu-mapping](https://github.com/98sean98/ngimu-mapping).
 
 To use, go to https://imu-mapping-online.seanchok.com.
 
